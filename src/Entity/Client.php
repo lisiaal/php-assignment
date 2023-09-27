@@ -44,7 +44,7 @@ class Client
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="client")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="client", cascade={"remove"})
      */
     private $comments;
 

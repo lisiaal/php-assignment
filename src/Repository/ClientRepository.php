@@ -15,8 +15,7 @@ class ClientRepository extends EntityRepository
     public function getExisitingClient(InputDataModel $inputDataModel): ?Client
     {
         return $this->createQueryBuilder('c')
-            ->where('c.deleted = false')
-            ->andWhere('c.clientId = :clientId')
+            ->where('c.clientId = :clientId')
             ->orWhere('c.email = :email')
             ->setParameter('clientId', $inputDataModel->getClientId())
             ->setParameter('email', $inputDataModel->getEmail())

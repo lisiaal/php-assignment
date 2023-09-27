@@ -59,15 +59,13 @@ class ApiService
 
     public function getAllClients(): ?array
     {
-        return $this->em->getRepository(Client::class)->findBy(['deleted' => false]);
+        return $this->em->getRepository(Client::class)->findAll();
     }
 
     public function deleteClient(int $id): void
     {
         $client = $this->em->getRepository(Client::class)->find($id);
-        $client->setDeleted(true);
-
-        $this->em->persist($client);
+        $this->em->remove($client);
         $this->em->flush();
     }
 
@@ -80,5 +78,15 @@ class ApiService
                 throw new BadRequestHttpException(sprintf('Incorrect parameter: %s', $message->getPropertyPath()));
             }
         }
+    }
+
+    public function getClient(int $id): ?Client
+    {
+        $client = $this->em->getRepository(Client::class)->find($id);
+        if (!$client) {
+            throw new BadRequestHttpException('Client not found');
+        }
+
+        return $client;
     }
 }

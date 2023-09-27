@@ -41,7 +41,6 @@ class ApiController extends AbstractController
     {
         /** @var InputDataModel $inputs */
         $input = $serializer->deserialize($request->getContent(), UpdateDataModel::class, 'json');
-
         $apiService->validateInput($input);
 
         $client = $apiService->update($input, $id);
@@ -67,5 +66,15 @@ class ApiController extends AbstractController
         $apiService->deleteClient($id);
 
         return $this->json(['results' => 'Deleted successfully!']);
+    }
+
+    /**
+     * @Route("/client/{id}", name="getClient", methods={"GET"})
+     */
+    public function getOne(int $id, ApiService $apiService): JsonResponse
+    {
+        $client = $apiService->getClient($id);
+
+        return $this->json($client);
     }
 }
